@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'build a  shobbing abb fo',
-  description: 'Built with Autonomous Remote AI Studio',
+  title: 'SOLEVAULT — The Premier Sneaker & Footwear Archive',
+  description: 'Shop verified authentic limited drops, high-performance running shoes, and custom bespoke footwear.',
 };
 
 export default function RootLayout({

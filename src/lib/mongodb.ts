@@ -9,9 +9,29 @@ if (!cached) {
 
 export async function connectToDatabase() {
   if (cached.conn) return cached.conn;
+
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((m) => m);
+    const opts = {
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 2000,
+      connectTimeoutMS: 2000,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((m) => {
+      return m;
+    }).catch((err) => {
+      cached.promise = null;
+      console.warn('MongoDB connection warning:', err?.message || err);
+      return null;
+    });
   }
-  cached.conn = await cached.promise;
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    return null;
+  }
+
   return cached.conn;
 }
